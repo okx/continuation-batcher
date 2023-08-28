@@ -126,6 +126,12 @@ pub trait AppBuilder: CommandBuilder {
                     .get_one::<String>("name")
                     .expect("name of the prove task is not provided");
 
+                for proof in batchinfo.proofs.iter() {
+                    for na in proof.vkey.cs.named_advices.iter() {
+                        println!("named_advice: {}, {}", na.0, na.1);
+                    }
+                }
+
                 batchinfo.load_commitments_check(&proofsinfo, commits_equiv_info);
 
                 let agg_circuit = batchinfo.build_aggregate_circuit(&output_dir, proof_name.clone(), hash);
