@@ -79,7 +79,7 @@ impl<E: MultiMillerLoop + G2AffineBaseHelper> BatchInfo<E>
         let mut idx = 0;
         let mut column_idx = None;
         for proofinfo in proofsinfo.iter() {
-            println!("{}, {}", cn.name, proofinfo.name);
+            println!("{}, {}, {}", cn.name, proofinfo.name, cn.column_name);
             if proofinfo.name == cn.name {
                 idx += cn.proof_idx;
                 let c = self.proofs[idx]
@@ -175,9 +175,10 @@ impl<E: MultiMillerLoop + G2AffineBaseHelper> BatchInfo<E>
         println!("check single proof for each proof info:");
         if true {
             let timer = start_timer!(|| "native verify single proof");
-            for (_, proof) in self.proofs.iter().enumerate() {
+            for (i, proof) in self.proofs.iter().enumerate() {
                 //println!("proof is {:?}", proof.transcripts);
                 //println!("instance is {:?}", proof.instances);
+                println!("index:{},\n {:?}", i, proof.vkey.cs.pinned());
                 native_verifier::verify_single_proof::<E>(
                     &params_verifier,
                     &proof.vkey,
