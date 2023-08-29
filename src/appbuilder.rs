@@ -87,6 +87,8 @@ pub trait AppBuilder: CommandBuilder {
                 let config_files = Self::parse_proof_load_info_arg(sub_matches);
                 let commits_equiv_file = Self::parse_commits_equiv_info_arg(sub_matches);
 
+                println!("info files:{:?}", config_files);
+
                 let mut target_k = None;
                 let mut proofsinfo = vec![];
                 let proofs = config_files.iter().map(|config| {
