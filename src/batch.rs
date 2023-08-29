@@ -79,7 +79,7 @@ impl<E: MultiMillerLoop + G2AffineBaseHelper> BatchInfo<E>
         let mut idx = 0;
         let mut column_idx = None;
         for proofinfo in proofsinfo.iter() {
-            println!("{}, {}, {}", cn.name, proofinfo.name, cn.column_name);
+            println!("{}, {}, {}, transcripts len:{}", cn.name, proofinfo.name, cn.column_name, proofinfo.transcripts.len());
             if proofinfo.name == cn.name {
                 idx += cn.proof_idx;
                 let c = self.proofs[idx]
