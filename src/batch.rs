@@ -178,7 +178,7 @@ impl<E: MultiMillerLoop + G2AffineBaseHelper> BatchInfo<E>
             for (i, proof) in self.proofs.iter().enumerate() {
                 //println!("proof is {:?}", proof.transcripts);
                 //println!("instance is {:?}", proof.instances);
-                println!("index:{},\n {:?}", i, proof.vkey.cs.pinned());
+                println!("index:{}", i);
                 native_verifier::verify_single_proof::<E>(
                     &params_verifier,
                     &proof.vkey,
