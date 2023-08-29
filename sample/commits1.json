@@ -2,7 +2,7 @@
   "equivalents": [
     {
       "source": {"name": "POSEIDONHASH", "proof_idx": 0, "column_name": "shared_operands"},
-      "target": {"name": "zkwasm", "proof_idx": 0, "column_name": "shared_operands"}
+      "target": {"name": "zkwasm", "proof_idx": 0, "column_name": "shared_arg"}
     }
   ],
   "expose": [],
