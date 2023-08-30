@@ -7,6 +7,14 @@
     {
       "source": {"name": "zkwasm", "proof_idx": 0, "column_name": "shared_operands"},
       "target": {"name": "POSEIDONHASH", "proof_idx": 0, "column_name": "shared_opcodes"}
+    },
+    {
+      "source": {"name": "zkwasm", "proof_idx": 0, "column_name": "shared_arg"},
+      "target": {"name": "MERKLE", "proof_idx": 0, "column_name": "shared_operands"}
+    },
+    {
+      "source": {"name": "zkwasm", "proof_idx": 0, "column_name": "shared_operands"},
+      "target": {"name": "MERKLE", "proof_idx": 0, "column_name": "shared_opcodes"}
     }
   ],
   "expose": [],
