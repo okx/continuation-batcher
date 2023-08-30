@@ -1,1 +1,1 @@
-cargo run --release -- --output ./output batch --challenge poseidon -k 23 --info output/zkwasm.loadinfo.json output/POSEIDONHASH.loadinfo.json output/MERKLE.loadinfo.json output/JUBJUBSUM.loadinfo.json --name batchsample --commits sample/commits1.json
+cargo run --release --features cuda -- --output ./output batch --challenge poseidon -k 23 --info output/zkwasm.loadinfo.json output/POSEIDONHASH.loadinfo.json output/MERKLE.loadinfo.json output/JUBJUBSUM.loadinfo.json --name batchsample --commits sample/commits1.json
