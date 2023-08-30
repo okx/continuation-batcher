@@ -1,4 +1,4 @@
-cargo run --release -- --output ./output batch --challenge poseidon -k 22 --info output/zkwasm.loadinfo.json output/POSEIDONHASH.loadinfo.json output/MERKLE.loadinfo.json --name batchsample --commits sample/commits1.json
+cargo run --release -- --output ./output batch --challenge poseidon -k 22 --info output/zkwasm.loadinfo.json output/POSEIDONHASH.loadinfo.json output/MERKLE.loadinfo.json output/JUBJUBSUM.loadinfo.json --name batchsample --commits sample/commits1.json
 
 #{
 #  "equivalents": [
