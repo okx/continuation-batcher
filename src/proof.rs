@@ -323,7 +323,7 @@ impl<E: MultiMillerLoop, C: Circuit<E::Scalar>> Prover<E> for CircuitInfo<E, C> 
         let vkey = load_or_build_vkey::<E, C>(
             &params,
             &self.circuit,
-            &cache_folder.join(format!("{}.vkey.data", "0E3A245779E33612EB9DDF97C5C9084E")),
+            &cache_folder.join(format!("{}.0.vkey.data", "0E3A245779E33612EB9DDF97C5C9084E")),
         );
 
         store_instance(
@@ -421,7 +421,7 @@ fn load_vkey<E: MultiMillerLoop, C: Circuit<E::Scalar>>(
 ) -> VerifyingKey<E::G1Affine> {
     println!("read vkey from {:?}", cache_file);
     let mut fd = std::fs::File::open(&cache_file).unwrap();
-    VerifyingKey::read::<_, C>(&mut fd, params).unwrap()
+    VerifyingKey::read::<_, C>(&mut fd, params).expect("vkey error")
 }
 
 fn load_or_build_vkey<E: MultiMillerLoop, C: Circuit<E::Scalar>>(
