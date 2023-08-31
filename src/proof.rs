@@ -295,7 +295,7 @@ impl<E: MultiMillerLoop, C: Circuit<E::Scalar>> Prover<E> for CircuitInfo<E, C> 
         let vkey = load_or_build_vkey::<E, C>(
             &params,
             &self.circuit,
-            &cache_folder.join(format!("{}.vkey.data", self.name)),
+            &cache_folder.join(format!("{}.{}.vkey.data", self.name, 0)),
         );
 
         let pkey = keygen_pk(&params, vkey, &self.circuit).expect("keygen_pk should not fail");
