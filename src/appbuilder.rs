@@ -129,6 +129,7 @@ pub trait AppBuilder: CommandBuilder {
                     .expect("name of the prove task is not provided");
 
                 for proof in batchinfo.proofs.iter() {
+                    println!("new proof......");
                     for na in proof.vkey.cs.named_advices.iter() {
                         println!("named_advice: {}, {}", na.0, na.1);
                     }
