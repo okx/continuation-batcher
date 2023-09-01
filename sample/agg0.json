@@ -1,10 +1,5 @@
 {
-  "equivalents": [
-    {
-      "source": {"name": "batch0", "proof_idx": 0, "column_name": "context_output"},
-      "target": {"name": "batch1", "proof_idx": 0, "column_name": "context_input"}
-    }
-  ],
+  "equivalents": [],
   "expose": [
     {"name": "batch0", "proof_idx": 0, "column_name": "context_output"}
   ],
