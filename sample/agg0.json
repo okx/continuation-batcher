@@ -1,7 +1,0 @@
-{
-  "equivalents": [],
-  "expose": [
-    {"name": "batch0", "proof_idx": 0, "column_name": "context_output"}
-  ],
-  "absorb": []
-}
