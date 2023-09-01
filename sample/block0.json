@@ -26,7 +26,6 @@
     }
   ],
   "expose": [
-    {"name": "block0", "proof_idx": 0, "column_name": "context_input"},
     {"name": "block0", "proof_idx": 0, "column_name": "context_output"}
   ],
   "absorb": []
