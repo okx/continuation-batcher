@@ -25,6 +25,9 @@
       "target": {"name": "block0.JUBJUBSUM", "proof_idx": 0, "column_name": "shared_opcodes"}
     }
   ],
-  "expose": [],
+  "expose": [
+    {"name": "block0", "proof_idx": 0, "column_name": "context_input"},
+    {"name": "block0", "proof_idx": 0, "column_name": "context_output"}
+  ],
   "absorb": []
 }
