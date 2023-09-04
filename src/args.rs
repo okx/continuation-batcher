@@ -67,7 +67,7 @@ pub trait ArgBuilder {
     fn parse_commits_equiv_info_arg(matches: &ArgMatches) -> PathBuf {
         matches
             .get_one::<PathBuf>("commits")
-            .unwrap()
+            .expect("commit info file is not provided")
             .clone()
     }
 
@@ -76,6 +76,13 @@ pub trait ArgBuilder {
             -o --output [OUTPUT_PATH] "Path of the output files."
         ).value_parser(value_parser!(PathBuf))
     }
+
+    fn param_path_arg<'a>() -> Arg<'a> {
+        arg!(
+            -p --param [PARAM_PATH] "Path of the param files."
+        ).value_parser(value_parser!(PathBuf))
+    }
+
 
     fn proof_name_arg<'a>() -> Arg<'a> {
         arg!(
