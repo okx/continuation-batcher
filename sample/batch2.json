@@ -1,20 +1,28 @@
 {
   "equivalents": [
     {
-      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_arg"},
+      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_operands"},
       "target": {"name": "block2.POSEIDONHASH", "proof_idx": 0, "column_name": "shared_operands"}
     },
     {
-      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_operands"},
+      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_opcodes"},
       "target": {"name": "block2.POSEIDONHASH", "proof_idx": 0, "column_name": "shared_opcodes"}
     },
     {
-      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_arg"},
+      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_operands"},
       "target": {"name": "block2.MERKLE", "proof_idx": 0, "column_name": "shared_operands"}
     },
     {
-      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_operands"},
+      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_opcodes"},
       "target": {"name": "block2.MERKLE", "proof_idx": 0, "column_name": "shared_opcodes"}
+    },
+    {
+      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_operands"},
+      "target": {"name": "block2.JUBJUBSUM", "proof_idx": 0, "column_name": "shared_operands"}
+    },
+    {
+      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_opcodes"},
+      "target": {"name": "block2.JUBJUBSUM", "proof_idx": 0, "column_name": "shared_opcodes"}
     }
   ],
   "expose": [
