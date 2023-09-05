@@ -1,1 +1,1 @@
-cargo run --release -- --output ./output batch --challenge poseidon -k 22 --info output/batch1.loadinfo.json output/block2.loadinfo.json output/block2.POSEIDONHASH.loadinfo.json output/block2.MERKLE.loadinfo.json --name batch2 --commits sample/batch2.json
+cargo run --release -- --output ./output --param ./output batch --challenge poseidon -k 22 --info output/batch1.loadinfo.json output/block2.loadinfo.json output/block2.POSEIDONHASH.loadinfo.json output/block2.MERKLE.loadinfo.json --name batch2 --commits sample/batch2.json
