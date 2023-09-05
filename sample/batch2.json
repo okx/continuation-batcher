@@ -1,0 +1,29 @@
+{
+  "equivalents": [
+    {
+      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_arg"},
+      "target": {"name": "block2.POSEIDONHASH", "proof_idx": 0, "column_name": "shared_operands"}
+    },
+    {
+      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_operands"},
+      "target": {"name": "block2.POSEIDONHASH", "proof_idx": 0, "column_name": "shared_opcodes"}
+    },
+    {
+      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_arg"},
+      "target": {"name": "block2.MERKLE", "proof_idx": 0, "column_name": "shared_operands"}
+    },
+    {
+      "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_operands"},
+      "target": {"name": "block2.MERKLE", "proof_idx": 0, "column_name": "shared_opcodes"}
+    }
+  ],
+  "expose": [
+    {"name": "block2", "proof_idx": 0, "column_name": "context_output"}
+  ],
+  "absorb": [
+    {
+      "instance_idx": {"name": "batch1", "proof_idx": 0, "group_idx": 2},
+      "target": {"name": "block2", "proof_idx": 0, "column_name": "context_input"}
+    }
+  ]
+}
