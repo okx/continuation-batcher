@@ -85,6 +85,10 @@ pub fn batch_proofs(
         .flatten()
         .collect::<Vec<_>>();
 
+    for (i, proof) in proofs.iter().enumerate() {
+        println!("{}:{:?}", i, proof.vkey.cs.named_advices)
+    }
+
     let mut batchinfo = BatchInfo::<Bn256> {
         proofs,
         target_k: target_k.unwrap(),
