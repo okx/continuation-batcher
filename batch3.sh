@@ -1,1 +1,1 @@
-cargo run --release -- --output ./output --param ./output batch --challenge sha -k 23 --info output/batch2.loadinfo.json output/block3.loadinfo.json output/block3.POSEIDONHASH.loadinfo.json output/block3.MERKLE.loadinfo.json --name batch3 --commits sample/batch3.json
+cargo run --release --features cuda -- --output ./output --param ./output batch --challenge sha -k 23 --info output/batch2.loadinfo.json output/block3.loadinfo.json output/block3.POSEIDONHASH.loadinfo.json output/block3.MERKLE.loadinfo.json --name batch3 --commits sample/batch3.json
