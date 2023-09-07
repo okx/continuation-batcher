@@ -1,37 +1,37 @@
 {
   "equivalents": [
     {
-      "source": {"name": "block1", "proof_idx": 0, "column_name": "shared_operands"},
-      "target": {"name": "block1.POSEIDONHASH", "proof_idx": 0, "column_name": "shared_operands"}
+      "source": {"name": "final0", "proof_idx": 0, "column_name": "shared_operands"},
+      "target": {"name": "final0.POSEIDONHASH", "proof_idx": 0, "column_name": "shared_operands"}
     },
     {
-      "source": {"name": "block1", "proof_idx": 0, "column_name": "shared_opcodes"},
-      "target": {"name": "block1.POSEIDONHASH", "proof_idx": 0, "column_name": "shared_opcodes"}
+      "source": {"name": "final0", "proof_idx": 0, "column_name": "shared_opcodes"},
+      "target": {"name": "final0.POSEIDONHASH", "proof_idx": 0, "column_name": "shared_opcodes"}
     },
     {
-      "source": {"name": "block1", "proof_idx": 0, "column_name": "shared_operands"},
-      "target": {"name": "block1.MERKLE", "proof_idx": 0, "column_name": "shared_operands"}
+      "source": {"name": "final0", "proof_idx": 0, "column_name": "shared_operands"},
+      "target": {"name": "final0.MERKLE", "proof_idx": 0, "column_name": "shared_operands"}
     },
     {
-      "source": {"name": "block1", "proof_idx": 0, "column_name": "shared_opcodes"},
-      "target": {"name": "block1.MERKLE", "proof_idx": 0, "column_name": "shared_opcodes"}
+      "source": {"name": "final0", "proof_idx": 0, "column_name": "shared_opcodes"},
+      "target": {"name": "final0.MERKLE", "proof_idx": 0, "column_name": "shared_opcodes"}
     },
     {
-      "source": {"name": "block1", "proof_idx": 0, "column_name": "shared_operands"},
-      "target": {"name": "block1.JUBJUBSUM", "proof_idx": 0, "column_name": "shared_operands"}
+      "source": {"name": "final0", "proof_idx": 0, "column_name": "shared_operands"},
+      "target": {"name": "final0.JUBJUBSUM", "proof_idx": 0, "column_name": "shared_operands"}
     },
     {
-      "source": {"name": "block1", "proof_idx": 0, "column_name": "shared_opcodes"},
-      "target": {"name": "block1.JUBJUBSUM", "proof_idx": 0, "column_name": "shared_opcodes"}
+      "source": {"name": "final0", "proof_idx": 0, "column_name": "shared_opcodes"},
+      "target": {"name": "final0.JUBJUBSUM", "proof_idx": 0, "column_name": "shared_opcodes"}
     }
   ],
   "expose": [
-    {"name": "block1", "proof_idx": 0, "column_name": "context_output"}
+    {"name": "final0", "proof_idx": 0, "column_name": "context_output"}
   ],
   "absorb": [
     {
       "instance_idx": {"name": "batch0", "proof_idx": 0, "group_idx": 1},
-      "target": {"name": "block1", "proof_idx": 0, "column_name": "context_input"}
+      "target": {"name": "final0", "proof_idx": 0, "column_name": "context_input"}
     }
   ]
 }
