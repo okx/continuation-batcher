@@ -15,6 +15,14 @@
     {
       "source": {"name": "block0", "proof_idx": 0, "column_name": "shared_opcodes"},
       "target": {"name": "block0.MERKLE", "proof_idx": 0, "column_name": "shared_opcodes"}
+    },
+    {
+      "source": {"name": "block0", "proof_idx": 0, "column_name": "shared_operands"},
+      "target": {"name": "block0.JUBJUBSUM", "proof_idx": 0, "column_name": "shared_operands"}
+    },
+    {
+      "source": {"name": "block0", "proof_idx": 0, "column_name": "shared_opcodes"},
+      "target": {"name": "block0.JUBJUBSUM", "proof_idx": 0, "column_name": "shared_opcodes"}
     }
   ],
   "expose": [
