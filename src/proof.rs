@@ -25,7 +25,7 @@ use halo2aggregator_s::transcript::sha256::ShaRead;
 use halo2aggregator_s::transcript::sha256::ShaWrite;
 use std::fs::OpenOptions;
 use std::io::Write;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use serde::{Deserialize, Serialize};
 use crate::args::HashType;
 
@@ -423,6 +423,34 @@ pub fn load_vkey<E: MultiMillerLoop, C: Circuit<E::Scalar>>(
     VerifyingKey::read::<_, C>(&mut fd, params).unwrap()
 }
 
+use std::collections::HashMap;
+use lazy_static::lazy_static;
+use std::sync::Mutex;
+use halo2_proofs::pairing::bn256::{Fr, G1Affine};
+
+lazy_static! {
+    static ref GLOBAL_MAP: Mutex<HashMap<PathBuf, ProvingKey<G1Affine>>> = Mutex::new(HashMap::new());
+}
+
+pub fn load_or_build_pkey2<C: Circuit<Fr>>(
+    params: &Params<G1Affine>,
+    circuit: &C,
+    cache_file: &PathBuf,
+) -> ProvingKey<G1Affine> {
+    use ark_std::{start_timer, end_timer};
+    let mut global_map = GLOBAL_MAP.lock().unwrap();
+    if let Some(pkey) = global_map.get(cache_file) {
+        pkey.clone()
+    } else {
+        let timer = start_timer!(|| "ketgen vkey and pkey ...");
+        let vkey = keygen_vk(&params, circuit).expect("keygen_vk should not fail");
+        let pkey = keygen_pk(&params, vkey.clone(), circuit).expect("keygen_pk should not fail");
+        end_timer!(timer);
+        global_map.insert(cache_file.clone(), pkey.clone());
+        pkey
+    }
+}
+
 pub fn load_or_build_pkey<E: MultiMillerLoop, C: Circuit<E::Scalar>>(
     params: &Params<E::G1Affine>,
     circuit: &C,
@@ -466,6 +494,12 @@ fn store_info_full<E: MultiMillerLoop, C: Circuit<E::Scalar>>(
        .unwrap();
     vkey.store(&mut fd).unwrap();
     store_pk_info(params, vkey, circuit, &mut fd).unwrap();
+}
+
+pub fn read_vkey_full2(cache_file: &PathBuf) -> VerifyingKey<G1Affine> {
+    println!("read vkey full from {:?}", cache_file);
+    let global_map = GLOBAL_MAP.lock().unwrap();
+    global_map.get(cache_file).unwrap().get_vk().clone()
 }
 
 pub(crate) fn read_vkey_full<E: MultiMillerLoop>(cache_file: &Path) -> VerifyingKey<E::G1Affine> {

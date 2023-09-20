@@ -53,3 +53,5 @@ opt-level = 3
 #[patch.'https://github.com/junyu0312/halo2']
 #halo2_proofs = { path = './halo2/halo2_proofs' }
 
+[patch."https://github.com/DelphinusLab/halo2-gpu-specific.git"]
+halo2_proofs = { git = "https://github.com/okx/halo2-gpu-specific.git", branch = "yxq/cache-pkey" }
