@@ -441,6 +441,12 @@ pub fn load_or_build_pkey2<C: Circuit<Fr>>(
     let mut global_map = GLOBAL_MAP.lock().unwrap();
     if let Some(pkey) = global_map.get(cache_file) {
         pkey.clone()
+    } else if Path::exists(&cache_file) {
+        let timer = start_timer!(|| "test read info full ...");
+        let pkey = read_pk_full::<Bn256>(&params, &cache_file);
+        end_timer!(timer);
+        global_map.insert(cache_file.clone(), pkey.clone());
+        pkey
     } else {
         let timer = start_timer!(|| "keygen vkey and pkey ...");
         let vkey = keygen_vk(&params, circuit).expect("keygen_vk should not fail");
