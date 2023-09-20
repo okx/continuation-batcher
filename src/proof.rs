@@ -426,7 +426,7 @@ pub fn load_vkey<E: MultiMillerLoop, C: Circuit<E::Scalar>>(
 use std::collections::HashMap;
 use lazy_static::lazy_static;
 use std::sync::Mutex;
-use halo2_proofs::pairing::bn256::{Fr, G1Affine};
+use halo2_proofs::pairing::bn256::{Bn256, Fr, G1Affine};
 
 lazy_static! {
     static ref GLOBAL_MAP: Mutex<HashMap<PathBuf, ProvingKey<G1Affine>>> = Mutex::new(HashMap::new());
@@ -442,9 +442,12 @@ pub fn load_or_build_pkey2<C: Circuit<Fr>>(
     if let Some(pkey) = global_map.get(cache_file) {
         pkey.clone()
     } else {
-        let timer = start_timer!(|| "ketgen vkey and pkey ...");
+        let timer = start_timer!(|| "keygen vkey and pkey ...");
         let vkey = keygen_vk(&params, circuit).expect("keygen_vk should not fail");
         let pkey = keygen_pk(&params, vkey.clone(), circuit).expect("keygen_pk should not fail");
+        end_timer!(timer);
+        let timer = start_timer!(|| "test storing info full ...");
+        store_info_full::<Bn256, C>(&params, &vkey, circuit, cache_file);
         end_timer!(timer);
         global_map.insert(cache_file.clone(), pkey.clone());
         pkey
@@ -499,7 +502,12 @@ fn store_info_full<E: MultiMillerLoop, C: Circuit<E::Scalar>>(
 pub fn read_vkey_full2(cache_file: &PathBuf) -> VerifyingKey<G1Affine> {
     println!("read vkey full from {:?}", cache_file);
     let global_map = GLOBAL_MAP.lock().unwrap();
-    global_map.get(cache_file).unwrap().get_vk().clone()
+    if let Some(pkey) = global_map.get(cache_file) {
+        pkey.get_vk().clone()
+    } else {
+        let mut fd = std::fs::File::open(&cache_file).unwrap();
+        VerifyingKey::<G1Affine>::fetch(&mut fd).unwrap()
+    }
 }
 
 pub(crate) fn read_vkey_full<E: MultiMillerLoop>(cache_file: &Path) -> VerifyingKey<E::G1Affine> {
