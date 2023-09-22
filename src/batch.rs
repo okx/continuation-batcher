@@ -103,6 +103,14 @@ impl<E: MultiMillerLoop + G2AffineBaseHelper> BatchInfo<E>
                 idx += proofinfo.transcripts.len()
             }
         }
+
+        if column_idx.is_none() {
+            println!("cn name:{}", cn.name);
+            for (i, proofinfo) in proofsinfo.iter().enumerate() {
+                println!("{}, {}", i, proofinfo.name);
+            }
+        }
+
         (idx, column_idx.unwrap() as usize)
     }
 
