@@ -47,10 +47,13 @@
         {
             "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_opcodes"},
             "target": {"name": "JUBJUBSUM2", "proof_idx": 0, "column_name": "shared_opcodes"}
+        },
+        {
+            "source": {"name": "block", "proof_idx": 0, "column_name": "context_output"},
+            "target": {"name": "block2", "proof_idx": 0, "column_name": "context_input"}
         }
     ],
     "expose": [
-        {"name": "block", "proof_idx": 0, "column_name": "context_output"},
         {"name": "block2", "proof_idx": 0, "column_name": "context_output"}
     ],
     "absorb": []
