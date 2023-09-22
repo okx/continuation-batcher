@@ -1,0 +1,3 @@
+
+# batch test proofs
+cargo run --release --features cuda -- --param ./params --output ./batch1 batch -k 23 --challenge poseidon --info batch1/block.loadinfo.json batch1/POSEIDONHASH.loadinfo.json batch1/MERKLE.loadinfo.json batch1/JUBJUBSUM.loadinfo.json batch1/block2.loadinfo.json batch1/POSEIDONHASH2.loadinfo.json batch1/MERKLE2.loadinfo.json batch1/JUBJUBSUM2.loadinfo.json --name batch1 --commits sample/batchinfo1.json
