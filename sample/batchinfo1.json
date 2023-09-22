@@ -10,11 +10,11 @@
         },
         {
             "source": {"name": "block", "proof_idx": 0, "column_name": "shared_operands"},
-            "target": {"name": "MERKEL", "proof_idx": 0, "column_name": "shared_operands"}
+            "target": {"name": "MERKLE", "proof_idx": 0, "column_name": "shared_operands"}
         },
         {
             "source": {"name": "block", "proof_idx": 0, "column_name": "shared_opcodes"},
-            "target": {"name": "MERKEL", "proof_idx": 0, "column_name": "shared_opcodes"}
+            "target": {"name": "MERKLE", "proof_idx": 0, "column_name": "shared_opcodes"}
         },
         {
             "source": {"name": "block", "proof_idx": 0, "column_name": "shared_operands"},
@@ -34,11 +34,11 @@
         },
         {
             "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_operands"},
-            "target": {"name": "MERKEL2", "proof_idx": 0, "column_name": "shared_operands"}
+            "target": {"name": "MERKLE2", "proof_idx": 0, "column_name": "shared_operands"}
         },
         {
             "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_opcodes"},
-            "target": {"name": "MERKEL2", "proof_idx": 0, "column_name": "shared_opcodes"}
+            "target": {"name": "MERKLE2", "proof_idx": 0, "column_name": "shared_opcodes"}
         },
         {
             "source": {"name": "block2", "proof_idx": 0, "column_name": "shared_operands"},
