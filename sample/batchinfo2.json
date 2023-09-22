@@ -58,7 +58,7 @@
     ],
     "absorb": [
         {
-            "instance_idx": {"name": "batch1", "proof_idx": 0, "group_idx": 1},
+            "instance_idx": {"name": "batch1", "proof_idx": 0, "group_idx": 2},
             "target": {"name": "block", "proof_idx": 0, "column_name": "context_input"}
         }
     ]
