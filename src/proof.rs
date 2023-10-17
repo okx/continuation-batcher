@@ -643,7 +643,7 @@ pub(crate) fn read_pk_full<E: MultiMillerLoop>(
     let vk = VerifyingKey::<E::G1Affine>::fetch(&mut fd).unwrap();
     end_timer!(timer);
     let timer = start_timer!(|| "fetch pk full ...");
-    let pk = fetch_pk_info(params, &vk, &mut fd).unwrap();
+    let pk = fetch_pk_info(params, vk, &mut fd).unwrap();
     end_timer!(timer);
     pk
 }
