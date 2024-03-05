@@ -9,6 +9,7 @@ use halo2_proofs::pairing::bn256::Bn256;
 use halo2_proofs::plonk::create_proof;
 use halo2_proofs::plonk::create_proof_from_witness;
 use halo2_proofs::plonk::create_witness;
+use halo2_proofs::plonk::generate_advice_from_synthesize;
 use halo2_proofs::plonk::keygen_pk;
 use halo2_proofs::plonk::verify_proof;
 use halo2_proofs::plonk::Circuit;
@@ -31,7 +32,10 @@ use std::fs::OpenOptions;
 use std::io::Write;
 use std::num::NonZeroUsize;
 use std::path::Path;
+use std::sync::Arc;
 use std::sync::Mutex;
+use zkwasm_prover::create_proof_from_advices;
+use zkwasm_prover::prepare_advice_buffer;
 
 const DEFAULT_CACHE_SIZE: usize = 5;
 
@@ -483,19 +487,26 @@ impl<E: MultiMillerLoop, C: Circuit<E::Scalar>> Prover<E> for CircuitInfo<E, C> 
         let params_verifier: ParamsVerifier<E> = params.verifier(inputs_size).unwrap();
         let strategy = SingleVerifier::new(&params_verifier);
 
+        assert_eq!(self.circuits.len(), 1);
+        let mut advices = Arc::new(prepare_advice_buffer(pkey));
+
+        generate_advice_from_synthesize(
+            &params,
+            pkey,
+            &self.circuits[0],
+            &instances,
+            unsafe { Arc::get_mut_unchecked(&mut advices) }
+                .iter_mut()
+                .map(|x| (&mut x[..]) as *mut [_])
+                .collect(),
+        );
+
         let timer = start_timer!(|| "creating proof ...");
         let r = match self.proofloadinfo.hashtype {
             HashType::Poseidon => {
                 let mut transcript = PoseidonWrite::init(vec![]);
-                create_proof(
-                    &params,
-                    &pkey,
-                    &self.circuits,
-                    &[instances.as_slice()],
-                    OsRng,
-                    &mut transcript,
-                )
-                .expect("proof generation should not fail");
+                create_proof_from_advices(&params, pkey, &instances, advices, &mut transcript)
+                    .expect("proof generation should not fail");
 
                 let r = transcript.finalize();
                 log::info!("proof created with instance: {:?}", self.instances);
@@ -512,15 +523,8 @@ impl<E: MultiMillerLoop, C: Circuit<E::Scalar>> Prover<E> for CircuitInfo<E, C> 
             }
             HashType::Sha => {
                 let mut transcript = ShaWrite::<_, _, _, sha2::Sha256>::init(vec![]);
-                create_proof(
-                    &params,
-                    &pkey,
-                    &self.circuits,
-                    &[instances.as_slice()],
-                    OsRng,
-                    &mut transcript,
-                )
-                .expect("proof generation should not fail");
+                create_proof_from_advices(&params, pkey, &instances, advices, &mut transcript)
+                    .expect("proof generation should not fail");
 
                 let r = transcript.finalize();
                 log::info!("proof created with instance ... {:?}", self.instances);
