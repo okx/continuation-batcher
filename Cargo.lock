@@ -774,7 +774,7 @@ dependencies = [
 [[package]]
 name = "halo2aggregator-s"
 version = "0.1.0"
-source = "git+https://github.com/DelphinusLab/halo2aggregator-s.git?branch=para-synthesize#d0a3bf7f4e580160e8da2daac7be2b0dec9fa369"
+source = "git+https://github.com/DelphinusLab/halo2aggregator-s.git?branch=para-synthesize#78b441b7c0c3ef091239e109d7f06e96f0bec739"
 dependencies = [
  "ark-std 0.4.0",
  "blake2b_simd",
@@ -791,7 +791,7 @@ dependencies = [
 [[package]]
 name = "halo2ecc-s"
 version = "0.3.2"
-source = "git+https://github.com/lanbones/halo2ecc-s.git?branch=para-synthesize#919e91ebd78a766b180a679389c735a8b5fda9aa"
+source = "git+https://github.com/lanbones/halo2ecc-s.git?branch=para-synthesize#e86efc4791385caf0d07e812c5d006484c536cbf"
 dependencies = [
  "halo2_proofs",
  "num-bigint",

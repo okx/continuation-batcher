@@ -6,12 +6,12 @@ use halo2_proofs::helpers::fetch_pk_info;
 use halo2_proofs::helpers::store_pk_info;
 use halo2_proofs::helpers::Serializable;
 use halo2_proofs::pairing::bn256::Bn256;
-use halo2_proofs::plonk::create_proof;
 use halo2_proofs::plonk::create_proof_from_witness;
 use halo2_proofs::plonk::create_witness;
 use halo2_proofs::plonk::generate_advice_from_synthesize;
 use halo2_proofs::plonk::keygen_pk;
 use halo2_proofs::plonk::verify_proof;
+//use halo2_proofs::plonk::verify_proof_with_shplonk;
 use halo2_proofs::plonk::Circuit;
 use halo2_proofs::plonk::ProvingKey;
 use halo2_proofs::plonk::SingleVerifier;
@@ -34,7 +34,7 @@ use std::num::NonZeroUsize;
 use std::path::Path;
 use std::sync::Arc;
 use std::sync::Mutex;
-use zkwasm_prover::create_proof_from_advices;
+use zkwasm_prover::create_proof_from_advices_with_gwc;
 use zkwasm_prover::prepare_advice_buffer;
 
 const DEFAULT_CACHE_SIZE: usize = 5;
@@ -488,7 +488,7 @@ impl<E: MultiMillerLoop, C: Circuit<E::Scalar>> Prover<E> for CircuitInfo<E, C> 
         let strategy = SingleVerifier::new(&params_verifier);
 
         assert_eq!(self.circuits.len(), 1);
-        let mut advices = Arc::new(prepare_advice_buffer(pkey));
+        let mut advices = Arc::new(prepare_advice_buffer(pkey, false));
 
         generate_advice_from_synthesize(
             &params,
@@ -505,7 +505,7 @@ impl<E: MultiMillerLoop, C: Circuit<E::Scalar>> Prover<E> for CircuitInfo<E, C> 
         let r = match self.proofloadinfo.hashtype {
             HashType::Poseidon => {
                 let mut transcript = PoseidonWrite::init(vec![]);
-                create_proof_from_advices(&params, pkey, &instances, advices, &mut transcript)
+                create_proof_from_advices_with_gwc(&params, pkey, &instances, advices, &mut transcript)
                     .expect("proof generation should not fail");
 
                 let r = transcript.finalize();
@@ -523,7 +523,7 @@ impl<E: MultiMillerLoop, C: Circuit<E::Scalar>> Prover<E> for CircuitInfo<E, C> 
             }
             HashType::Sha => {
                 let mut transcript = ShaWrite::<_, _, _, sha2::Sha256>::init(vec![]);
-                create_proof_from_advices(&params, pkey, &instances, advices, &mut transcript)
+                create_proof_from_advices_with_gwc(&params, pkey, &instances, advices, &mut transcript)
                     .expect("proof generation should not fail");
 
                 let r = transcript.finalize();
