@@ -2198,7 +2198,6 @@ dependencies = [
 [[package]]
 name = "zkwasm-prover"
 version = "0.1.0"
-source = "git+ssh://git@github.com/lanbones/zkWasm-prover.git?branch=zhangjunyu/para-synthesize#37e17876a5e9a39feba73ee1bb9d6382ba4d3918"
 dependencies = [
  "ark-std 0.4.0",
  "cc",
