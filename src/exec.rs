@@ -93,7 +93,7 @@ pub fn exec_batch_proofs(
         let (mut last_agg, mut instances, mut shadow_instances, mut last_hash) = batchinfo.build_aggregate_circuit(
             &params,
             false,
-            vec![],
+            None,
             true,
         );
         pre_batch_instance = instances[0];
@@ -102,7 +102,7 @@ pub fn exec_batch_proofs(
             (last_agg, instances, shadow_instances, last_hash) = batchinfo.build_aggregate_circuit(
                 &params,
                 false,
-                vec![(1, 0, pre_batch_instance)],
+                Some(vec![(1, 0, pre_batch_instance)]),
                 true,
             );
 
@@ -114,7 +114,7 @@ pub fn exec_batch_proofs(
         batchinfo.build_aggregate_circuit(
             &params,
             is_final,
-            vec![(1, 0, pre_batch_instance)],
+            Some(vec![(1, 0, pre_batch_instance)]),
             false,
         )
     };

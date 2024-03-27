@@ -160,7 +160,7 @@ where
         &self,
         params: &Params<E::G1Affine>,
         is_final: bool,
-        last_agg_info: Vec<(usize, usize, E::Scalar)>, // (proof_index, instance_col, hash)
+        last_agg_info: Option<Vec<(usize, usize, E::Scalar)>>, // (proof_index, instance_col, hash)
         use_select_chip: bool,
     ) -> (
         AggregatorCircuit<<E as Engine>::G1Affine>,
@@ -189,8 +189,8 @@ where
             .max_by(|x, y| x.cmp(y))
             .unwrap();
 
-        last_agg_info.clone().into_iter().map(|x| {
-            target_proof_max_instance[x.0] = vec![1];
+        last_agg_info.clone().map(|x| {
+            target_proof_max_instance[x[0].0] = vec![1];
         });
 
         let params_verifier: ParamsVerifier<E> = params.verifier(max_target_instances).unwrap();
@@ -223,19 +223,23 @@ where
         println!("commitment expose: {:?}", self.expose);
         println!("commitment absorb: {:?}", self.absorb);
 
+        let target_aggregator_constant_hash_instance_offset =
+            last_agg_info.clone().map_or_else(|| vec![], |x| x.clone());
+
         let config = &AggregatorConfig {
             hash: TranscriptHash::Poseidon,
             commitment_check: self.equivalents.clone(),
             expose: self.expose.clone(),
             absorb: self.absorb.clone(),
-            target_aggregator_constant_hash_instance_offset:
-                last_agg_info.clone(), // hash instance of the proof index
+            target_aggregator_constant_hash_instance_offset, // hash instance of the proof index
             target_proof_with_shplonk: vec![],
             target_proof_with_shplonk_as_default: true,
             target_proof_max_instance,
             is_final_aggregator: is_final,
             //is_final_aggregator: true,
-            prev_aggregator_skip_instance: vec![(1, 1)], // hash get absorbed automatically
+            prev_aggregator_skip_instance: last_agg_info
+                .as_ref()
+                .map_or_else(|| vec![], |x| vec![(x[0].0, 1)]), // hash get absorbed automatically
             absorb_instance: vec![],
             use_select_chip,
         };
