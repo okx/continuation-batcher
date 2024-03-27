@@ -1,7 +1,6 @@
 use crate::args::HashType;
 use crate::batch::BatchInfo;
 use crate::batch::CommitmentCheck;
-use crate::batch::LastAggInfo;
 use crate::proof::load_or_build_unsafe_params;
 use crate::proof::ParamsCache;
 use crate::proof::ProofInfo;
@@ -13,43 +12,11 @@ use halo2aggregator_s::circuits::utils::TranscriptHash;
 use halo2aggregator_s::solidity_verifier::codegen::solidity_aux_gen;
 use halo2aggregator_s::solidity_verifier::solidity_render;
 use halo2aggregator_s::circuits::utils::store_instance;
-
-/*
-use crate::profile::Profiler;
-use crate::runtime::wasmi_interpreter::WasmRuntimeIO;
-use crate::runtime::CompiledImage;
-use crate::runtime::ExecutionResult;
-use anyhow::Result;
-use halo2_proofs::arithmetic::BaseExt;
-use halo2_proofs::dev::MockProver;
-*/
 use halo2_proofs::pairing::bn256::Bn256;
-/*
-use halo2_proofs::pairing::bn256::Fr;
-use halo2_proofs::pairing::bn256::G1Affine;
-use halo2_proofs::plonk::verify_proof;
-use halo2_proofs::plonk::SingleVerifier;
-use halo2_proofs::poly::commitment::ParamsVerifier;
-use halo2aggregator_s::circuit_verifier::circuit::AggregatorCircuit;
-use halo2aggregator_s::circuits::utils::load_instance;
-*/
-/*
-use halo2aggregator_s::circuits::utils::load_or_build_vkey;
-use halo2aggregator_s::circuits::utils::load_or_create_proof;
-use halo2aggregator_s::circuits::utils::load_proof;
-use halo2aggregator_s::circuits::utils::load_vkey;
-use halo2aggregator_s::circuits::utils::run_circuit_unsafe_full_pass;
-use halo2aggregator_s::circuits::utils::store_instance;
-use halo2aggregator_s::circuits::utils::TranscriptHash;
-use halo2aggregator_s::solidity_verifier::codegen::solidity_aux_gen;
-use halo2aggregator_s::solidity_verifier::solidity_render;
-use halo2aggregator_s::transcript::poseidon::PoseidonRead;
-use halo2aggregator_s::transcript::sha256::ShaRead;
-*/
 use log::info;
 use sha2::Digest;
-
 use std::path::PathBuf;
+use halo2_proofs::arithmetic::Engine;
 
 pub fn generate_k_params(
     aggregate_k: u32,
@@ -121,48 +88,34 @@ pub fn exec_batch_proofs(
     );
 
     let mut circuit_info_idx = 0;
+    let mut pre_batch_instance = <Bn256 as Engine>::Fr::default();
     let (agg_circuit, agg_instances, shadow_instances, _) = if cont {
         let (mut last_agg, mut instances, mut shadow_instances, mut last_hash) = batchinfo.build_aggregate_circuit(
-            proof_name.clone(),
             &params,
-            &param_dir.clone(),
-            &output_dir.clone(),
-            Some(LastAggInfo {
-                circuit: None,
-                instances: None,
-                idx: 0,
-            }),
             false,
-            &vec![],
+            vec![],
+            true,
         );
+        pre_batch_instance = instances[0];
 
-        for i in 1..batchinfo.proofs.len() {
-            let last_agginfo = LastAggInfo {
-                circuit: Some(last_agg),
-                instances: Some(instances),
-                idx: i,
-            };
+        for _i in 1..batchinfo.proofs.len() {
             (last_agg, instances, shadow_instances, last_hash) = batchinfo.build_aggregate_circuit(
-                proof_name.clone(),
                 &params,
-                &param_dir.clone(),
-                &output_dir.clone(),
-                Some(last_agginfo),
                 false,
-                &vec![(1, 0, last_hash)],
+                vec![(1, 0, pre_batch_instance)],
+                true,
             );
+
+            pre_batch_instance = instances[0];
         }
         circuit_info_idx = batchinfo.proofs.len();
         (last_agg, instances, shadow_instances, last_hash)
     } else {
         batchinfo.build_aggregate_circuit(
-            proof_name.clone(),
             &params,
-            &param_dir.clone(),
-            &output_dir.clone(),
-            None,
             is_final,
-            &vec![],
+            vec![(1, 0, pre_batch_instance)],
+            false,
         )
     };
 
