@@ -89,12 +89,13 @@ pub fn exec_batch_proofs(
 
     let mut circuit_info_idx = 0;
     let mut pre_batch_instance = <Bn256 as Engine>::Fr::default();
+    let mut use_select_chip = true;
     let (agg_circuit, agg_instances, shadow_instances, _) = if cont {
         let (mut last_agg, mut instances, mut shadow_instances, mut last_hash) = batchinfo.build_aggregate_circuit(
             &params,
             false,
             None,
-            true,
+            use_select_chip,
         );
         pre_batch_instance = instances[0];
 
@@ -103,7 +104,7 @@ pub fn exec_batch_proofs(
                 &params,
                 false,
                 Some(vec![(1, 0, pre_batch_instance)]),
-                true,
+                use_select_chip,
             );
 
             pre_batch_instance = instances[0];
@@ -111,28 +112,44 @@ pub fn exec_batch_proofs(
         circuit_info_idx = batchinfo.proofs.len();
         (last_agg, instances, shadow_instances, last_hash)
     } else {
+        use_select_chip = false;
         batchinfo.build_aggregate_circuit(
             &params,
             is_final,
             Some(vec![(1, 0, pre_batch_instance)]),
-            false,
+            use_select_chip,
         )
     };
 
     let circuit_info = ProofPieceInfo::new(proof_name.clone(), circuit_info_idx, agg_instances.len() as u32);
     let mut proof_load_info = ProofLoadInfo::new(proof_name, batchinfo.batch_k as usize, hash);
 
-    circuit_info.exec_create_proof(
-        &agg_circuit,
-        &vec![agg_instances],
-        &output_dir,
-        &param_dir,
-        param_file.clone(),
-        proof_load_info.k as usize,
-        pkey_cache,
-        params_cache,
-        hash,
-    );
+    if use_select_chip {
+        circuit_info.exec_create_proof(
+            &agg_circuit.circuit_with_select_chip.unwrap(),
+            &vec![agg_instances],
+            &output_dir,
+            &param_dir,
+            param_file.clone(),
+            proof_load_info.k as usize,
+            pkey_cache,
+            params_cache,
+            hash,
+        );
+    } else {
+        circuit_info.exec_create_proof(
+            &agg_circuit.circuit_without_select_chip.unwrap(),
+            &vec![agg_instances],
+            &output_dir,
+            &param_dir,
+            param_file.clone(),
+            proof_load_info.k as usize,
+            pkey_cache,
+            params_cache,
+            hash,
+        );
+    };
+
 
     let public_inputs_size = circuit_info.instance_size as usize;
 

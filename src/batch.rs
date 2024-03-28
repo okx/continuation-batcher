@@ -6,7 +6,7 @@ use halo2_proofs::arithmetic::Engine;
 use halo2_proofs::arithmetic::MultiMillerLoop;
 use halo2_proofs::poly::commitment::{Params, ParamsVerifier};
 use halo2aggregator_s::circuit_verifier::build_aggregate_verify_circuit;
-use halo2aggregator_s::circuit_verifier::circuit::AggregatorCircuit;
+use halo2aggregator_s::circuit_verifier::circuit::{AggregatorCircuit, AggregatorCircuitOption};
 use halo2aggregator_s::circuit_verifier::G2AffineBaseHelper;
 use halo2aggregator_s::circuits::utils::{AggregatorConfig, TranscriptHash};
 use halo2aggregator_s::native_verifier;
@@ -163,7 +163,7 @@ where
         last_agg_info: Option<Vec<(usize, usize, E::Scalar)>>, // (proof_index, instance_col, hash)
         use_select_chip: bool,
     ) -> (
-        AggregatorCircuit<<E as Engine>::G1Affine>,
+        AggregatorCircuitOption<<E as Engine>::G1Affine>,
         Vec<<E as Engine>::Scalar>,
         Vec<<E as Engine>::Scalar>,
         <E as Engine>::Scalar,
@@ -253,10 +253,9 @@ where
             all_proofs,
             config,
         );
-
         end_timer!(timer);
         (
-            circuit.circuit_with_select_chip.unwrap(),
+            circuit,
             instances,
             shadow_instance,
             hash,
