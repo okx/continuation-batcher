@@ -268,7 +268,7 @@ dependencies = [
  "downcast-rs",
  "env_logger",
  "ff",
- "halo2_proofs",
+ "halo2_proofs 0.1.0-beta.1 (git+https://github.com/DelphinusLab/halo2-gpu-specific.git)",
  "halo2aggregator-s",
  "hex",
  "lazy_static",
@@ -734,6 +734,34 @@ dependencies = [
 [[package]]
 name = "halo2_proofs"
 version = "0.1.0-beta.1"
+source = "git+https://github.com/DelphinusLab/halo2-gpu-specific?branch=zhangjunyu/para-synthesize#a382f2d261a0c1279df03944ec06c0953254e564"
+dependencies = [
+ "ark-std 0.3.0",
+ "blake2b_simd",
+ "bumpalo",
+ "cfg-if 0.1.10",
+ "core_affinity",
+ "cuda-driver-sys",
+ "ec-gpu-gen",
+ "ff",
+ "group",
+ "lazy_static",
+ "memmap",
+ "num",
+ "num-bigint",
+ "num-derive",
+ "num-integer",
+ "num-traits",
+ "pairing_bn256",
+ "rand",
+ "rand_core",
+ "rayon",
+ "subtle",
+]
+
+[[package]]
+name = "halo2_proofs"
+version = "0.1.0-beta.1"
 source = "git+https://github.com/DelphinusLab/halo2-gpu-specific.git#9a81f601607bdc3ff3360a9ad66885c9796f487b"
 dependencies = [
  "ark-std 0.4.0",
@@ -767,7 +795,7 @@ source = "git+https://github.com/DelphinusLab/halo2aggregator-s.git#747788c33310
 dependencies = [
  "ark-std 0.4.0",
  "blake2b_simd",
- "halo2_proofs",
+ "halo2_proofs 0.1.0-beta.1 (git+https://github.com/DelphinusLab/halo2-gpu-specific.git)",
  "halo2ecc-s",
  "lazy_static",
  "num-bigint",
@@ -783,7 +811,7 @@ name = "halo2ecc-s"
 version = "0.3.2"
 source = "git+https://github.com/lanbones/halo2ecc-s.git?tag=bisect-lookup-0.4.0#eef56995f5729083d54b89faa30d5f90277acc22"
 dependencies = [
- "halo2_proofs",
+ "halo2_proofs 0.1.0-beta.1 (git+https://github.com/DelphinusLab/halo2-gpu-specific.git)",
  "num-bigint",
  "num-integer",
  "rayon",
@@ -1332,7 +1360,7 @@ name = "poseidon"
 version = "0.2.0"
 source = "git+https://github.com/DelphinusLab/poseidon.git#58835e054512ad7833df6d20479e9e0e034a073b"
 dependencies = [
- "halo2_proofs",
+ "halo2_proofs 0.1.0-beta.1 (git+https://github.com/DelphinusLab/halo2-gpu-specific.git)",
  "subtle",
 ]
 
@@ -2284,12 +2312,12 @@ dependencies = [
 [[package]]
 name = "zkwasm-prover"
 version = "0.1.0"
-source = "git+ssh://git@github.com/xgaozoyoe/zkWasm-prover.git#4e37b117d4976f2261b00de1cc72f864e5a933b9"
+source = "git+https://github.com/okx/zkWasm-prover.git#1a24047ac2bee6d619928442ab3ea181c415e972"
 dependencies = [
  "ark-std 0.4.0",
  "cc",
  "cuda-runtime-sys",
- "halo2_proofs",
+ "halo2_proofs 0.1.0-beta.1 (git+https://github.com/DelphinusLab/halo2-gpu-specific?branch=zhangjunyu/para-synthesize)",
  "icicle-bn254",
  "icicle-core",
  "icicle-cuda-runtime",
