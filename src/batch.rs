@@ -233,7 +233,7 @@ where
             prev_aggregator_skip_instance: last_agg_info
                 .as_ref()
                 .map_or_else(|| vec![], |x| vec![(x[0].0, 1)]),
-            absorb_instance: last_agg_info.map_or_else(|| vec![], |x| vec![(0, 0, x[0].0, 1)]),
+            absorb_instance: vec![],
             use_select_chip,
         };
 
